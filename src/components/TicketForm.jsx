@@ -21,10 +21,15 @@ const TicketForm = () => {
 		}));
 	}
 
+	function handleSubmit(event) {
+		event.preventDefault();
+		console.log(ticketData);
+	}
+
 	return (
 		<div className="container mt-4">
 			<h2>Richiesta apertura Ticket</h2>
-			<div className="p-4 border rounded bg-light">
+			<form onSubmit={handleSubmit} className="p-4 border rounded bg-light">
 				{/* Nome */}
 				<div className="mb-3">
 					<label className="form-label">Nome</label>
@@ -127,7 +132,7 @@ const TicketForm = () => {
 
 				{/* Pulsante di invio */}
 				<button type="submit" className="btn btn-primary">Invia richiesta</button>
-			</div>
+			</form>
 		</div>
 	);
 };
