@@ -2,21 +2,23 @@ import { useState } from "react";
 
 const TicketForm = () => {
 
-	//ticketDefault potrà tornare utile anche quando dovrete resettare il form ;)
-	//nota: i campi sono inizializzati tutti a "null", va corretto!
 	const ticketDefault = {
-		name: null,
-		language: null,
-		urgency: null,
-		updates: null,
-		description: null,
+		name: "",
+		language: "HTML",
+		urgency: "",
+		updates: false,
+		description: "",
 	};
-	//Potete agganciare questo state ai controlli del form ;)
-	const ticketData = useState(ticketDefault);
 
-	//Potete agganciare questa funzione a un input per iniziare a testare
+	const [ticketData, setTicketData] = useState(ticketDefault);
+
 	function handleForm(event) {
-		console.log(`Nome: "${event.target.name}" - Tipo ${event.target.type} - Valore: ${event.target.value}`);
+		const { name, type, value, checked } = event.target;
+
+		setTicketData((prev) => ({
+			...prev,
+			[name]: type === "checkbox" ? checked : value,
+		}));
 	}
 
 	return (
@@ -26,13 +28,25 @@ const TicketForm = () => {
 				{/* Nome */}
 				<div className="mb-3">
 					<label className="form-label">Nome</label>
-					<input type="text" name="name" className="form-control" required />
+					<input
+						type="text"
+						name="name"
+						value={ticketData.name}
+						onChange={handleForm}
+						className="form-control"
+						required
+					/>
 				</div>
 
 				{/* Selezione linguaggio */}
 				<div className="mb-3">
 					<label className="form-label">Linguaggio di programmazione</label>
-					<select name="language" className="form-select" >
+					<select
+						name="language"
+						value={ticketData.language}
+						onChange={handleForm}
+						className="form-select"
+					>
 						<option value="HTML">HTML</option>
 						<option value="CSS">CSS</option>
 						<option value="JS">JavaScript</option>
@@ -47,15 +61,39 @@ const TicketForm = () => {
 					<label className="form-label">Livello di urgenza</label>
 					<div>
 						<div className="form-check">
-							<input type="radio" name="urgency" value="low" id="urgencyLow" className="form-check-input" />
+							<input
+								type="radio"
+								name="urgency"
+								value="low"
+								id="urgencyLow"
+								checked={ticketData.urgency === "low"}
+								onChange={handleForm}
+								className="form-check-input"
+							/>
 							<label className="form-check-label" htmlFor="urgencyLow">Bassa</label>
 						</div>
 						<div className="form-check">
-							<input type="radio" name="urgency" value="medium" id="urgencyMedium" className="form-check-input" />
+							<input
+								type="radio"
+								name="urgency"
+								value="medium"
+								id="urgencyMedium"
+								checked={ticketData.urgency === "medium"}
+								onChange={handleForm}
+								className="form-check-input"
+							/>
 							<label className="form-check-label" htmlFor="urgencyMedium">Media</label>
 						</div>
 						<div className="form-check">
-							<input type="radio" name="urgency" value="high" id="urgencyHigh" className="form-check-input" />
+							<input
+								type="radio"
+								name="urgency"
+								value="high"
+								id="urgencyHigh"
+								checked={ticketData.urgency === "high"}
+								onChange={handleForm}
+								className="form-check-input"
+							/>
 							<label className="form-check-label" htmlFor="urgencyHigh">Alta</label>
 						</div>
 					</div>
@@ -63,14 +101,28 @@ const TicketForm = () => {
 
 				{/* Checkbox aggiornamenti */}
 				<div className="mb-3 form-check">
-					<input type="checkbox" name="updates" id="updates" className="form-check-input" />
+					<input
+						type="checkbox"
+						name="updates"
+						id="updates"
+						checked={ticketData.updates}
+						onChange={handleForm}
+						className="form-check-input"
+					/>
 					<label className="form-check-label" htmlFor="updates">Ricevi aggiornamenti sulla richiesta</label>
 				</div>
 
 				{/* Descrizione problema */}
 				<div className="mb-3">
 					<label className="form-label">Descrizione del problema</label>
-					<textarea name="description" className="form-control" rows="4" required />
+					<textarea
+						name="description"
+						value={ticketData.description}
+						onChange={handleForm}
+						className="form-control"
+						rows="4"
+						required
+					/>
 				</div>
 
 				{/* Pulsante di invio */}
